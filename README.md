@@ -1,6 +1,6 @@
 # Home-test
 
-### This is a Full Stack Developer Take Home Test for Travelopia. The project is a MERN (MongoDB, Express.js, React.js, Node.js) stack application.
+### The project is a MERN (MongoDB, Express.js, React.js, Node.js) stack application.
 
 <br/>
 
