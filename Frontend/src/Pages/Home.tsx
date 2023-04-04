@@ -1,18 +1,27 @@
 import {
     Box, Container, FormControl, FormHelperText, FormLabel, Input,
-    Select, Stack, VStack
-} from '@chakra-ui/react'
+    Select, Stack, VStack, useToast
+} from '@chakra-ui/react';
 
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+
+type HomeData = {
+    name: string;
+    email: string;
+    place: string;
+    no_of_travellers: number;
+    budget: number;
+}
 
 const Home = () => {
-    const [data, setData] = useState({
+    const [data, setData] = useState<HomeData>({
         name: '',
         email: '',
         place: '',
-        no_of_travellers: '',
+        no_of_travellers: 0,
         budget: 0
     })
+    const toast = useToast()
 
     const handleData = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
         setData({
@@ -23,7 +32,31 @@ const Home = () => {
 
     const submitData = async (e: React.SyntheticEvent) => {
         e.preventDefault();
-        console.log(data);
+        if (data.no_of_travellers === 0) {
+            toast({
+                title: "Please add number of travellers!",
+                status: 'warning',
+                position: 'top',
+                isClosable: true,
+            })
+            return;
+        }
+        if (data.budget === 0) {
+            toast({
+                title: "Please add budget!",
+                status: 'warning',
+                position: 'top',
+                isClosable: true,
+            })
+            return;
+        }
+        setData({
+            name: '',
+            email: '',
+            place: '',
+            no_of_travellers: 0,
+            budget: 0
+        })
     }
     return (
         <Container maxW="95%">
@@ -33,13 +66,13 @@ const Home = () => {
                         <FormControl>
                             <FormLabel>Name</FormLabel>
                             <Input type='text' placeholder='Name' required={true} onChange={handleData}
-                                name="name"
+                                name="name" value={data.name}
                             />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Email</FormLabel>
                             <Input type='email' placeholder='Email' required={true} onChange={handleData}
-                                name="email"
+                                name="email" value={data.email}
                             />
                         </FormControl>
                         <FormControl>
@@ -47,7 +80,7 @@ const Home = () => {
                             <Stack spacing={3}>
                                 <Select variant='filled' placeholder='Choose...' required={true}
                                     onChange={handleData}
-                                    name="place"
+                                    name="place" value={data.place}
                                 >
                                     <option value="India"> India </option>
                                     <option value="Africa"> Africa </option>
@@ -58,13 +91,13 @@ const Home = () => {
                         <FormControl>
                             <FormLabel>Number of travellers?</FormLabel>
                             <Input type='number' placeholder='No of travellers' required={true} onChange={handleData}
-                                name="no_of_travellers"
+                                name="no_of_travellers" value={data.no_of_travellers}
                             />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Budget per person ( $ )</FormLabel>
                             <Input type='number' placeholder='Budget per person' required={true} onChange={handleData}
-                                name="budget"
+                                name="budget" value={data.budget}
                             />
                         </FormControl>
                         <FormControl>
