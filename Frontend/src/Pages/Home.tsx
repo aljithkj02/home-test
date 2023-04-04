@@ -5,13 +5,9 @@ import {
 
 import React, { useState } from 'react';
 
-type HomeData = {
-    name: string;
-    email: string;
-    place: string;
-    no_of_travellers: number;
-    budget: number;
-}
+import { postData } from '../api/data.API';
+import { HomeData, ReturnedObj } from '../types';
+
 
 const Home = () => {
     const [data, setData] = useState<HomeData>({
@@ -30,7 +26,7 @@ const Home = () => {
         })
     }
 
-    const submitData = async (e: React.SyntheticEvent) => {
+    const submitData = (e: React.SyntheticEvent) => {
         e.preventDefault();
         if (data.no_of_travellers === 0) {
             toast({
@@ -50,12 +46,31 @@ const Home = () => {
             })
             return;
         }
-        setData({
-            name: '',
-            email: '',
-            place: '',
-            no_of_travellers: 0,
-            budget: 0
+
+        postData(data).then((res) => {
+            if (res?.status) {
+                toast({
+                    title: res.message,
+                    status: 'success',
+                    position: 'top',
+                    isClosable: true,
+                })
+
+                setData({
+                    name: '',
+                    email: '',
+                    place: '',
+                    no_of_travellers: 0,
+                    budget: 0
+                })
+            } else {
+                toast({
+                    title: res.message,
+                    status: 'error',
+                    position: 'top',
+                    isClosable: true,
+                })
+            }
         })
     }
     return (
