@@ -5,6 +5,7 @@ import {
 
 import React, { useState } from 'react';
 
+import Loader from '../Components/Loader';
 import { postData } from '../api/data.API';
 import { HomeData, ReturnedObj } from '../types';
 
@@ -17,6 +18,7 @@ const Home = () => {
         no_of_travellers: 0,
         budget: 0
     })
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const toast = useToast()
 
     const handleData = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
@@ -46,7 +48,7 @@ const Home = () => {
             })
             return;
         }
-
+        setIsLoading(true);
         postData(data).then((res) => {
             if (res?.status) {
                 toast({
@@ -71,10 +73,12 @@ const Home = () => {
                     isClosable: true,
                 })
             }
+            setIsLoading(false);
         })
     }
     return (
         <Container maxW="95%">
+            {isLoading && <Loader />}
             <Box w="40%" margin="2rem auto" boxShadow="0 0 10px black" borderRadius="lg" p={6}>
                 <form onSubmit={submitData}>
                     <VStack gap={3}>
