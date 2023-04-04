@@ -14,3 +14,4 @@ export type ReturnedObj = {
     status: boolean;
     message: string;
 }
+

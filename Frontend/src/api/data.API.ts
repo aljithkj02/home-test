@@ -11,3 +11,12 @@ export const postData = async (data: HomeData) => {
         return err;
     }
 }
+
+export const getData = async () => {
+    try {
+        const res = await axios.get(`${config.API_URL}/api/data`);
+        return res.data;
+    } catch (err) {
+        return err;
+    }
+}
