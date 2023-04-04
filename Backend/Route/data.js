@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { getData, postData } from "../Controller/data.js";
 
 const router = new Router();
 
